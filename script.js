@@ -111,111 +111,54 @@ document.addEventListener('DOMContentLoaded', () => {
         revealObserver.observe(el);
     });
 
-    // 8. Image Lightbox Modal / Popup
-    const openLightbox = (imageSrc, imageAlt) => {
-        const overlay = document.createElement('div');
-        overlay.className = 'lightbox-overlay';
-        
-        Object.assign(overlay.style, {
-            position: 'fixed',
-            top: '0',
-            left: '0',
-            width: '100vw',
-            height: '100vh',
-            backgroundColor: 'rgba(11, 17, 32, 0.95)',
-            backdropFilter: 'blur(10px)',
-            webkitBackdropFilter: 'blur(10px)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: '9999',
-            cursor: 'pointer',
-            padding: '2rem'
-        });
+    // 8. Image Lightbox Modal / Popup (Native <dialog>)
+    const lightboxDialog = document.getElementById('image-lightbox-dialog');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxTitle = document.getElementById('lightbox-dialog-title');
+    const lightboxDownloadLink = document.getElementById('lightbox-download-link');
 
-        const container = document.createElement('div');
-        Object.assign(container.style, {
-            position: 'relative',
-            maxWidth: '90vw',
-            maxHeight: '90vh',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
-        });
-
-        const largeImg = document.createElement('img');
-        largeImg.src = imageSrc;
-        largeImg.alt = imageAlt || 'Enlarged image';
-        
-        Object.assign(largeImg.style, {
-            maxWidth: '100%',
-            maxHeight: '90vh',
-            objectFit: 'contain',
-            borderRadius: '12px',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)',
-            border: '1px solid rgba(248, 250, 252, 0.1)'
-        });
-
-        const closeBtn = document.createElement('button');
-        closeBtn.innerHTML = '✕';
-        Object.assign(closeBtn.style, {
-            position: 'absolute',
-            top: '-20px',
-            right: '-20px',
-            width: '40px',
-            height: '40px',
-            borderRadius: '50%',
-            backgroundColor: '#f59e0b',
-            color: '#020617',
-            border: 'none',
-            fontSize: '1.2rem',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-        });
-
-        container.appendChild(largeImg);
-        container.appendChild(closeBtn);
-        overlay.appendChild(container);
-        document.body.appendChild(overlay);
-        document.body.style.overflow = 'hidden';
-
-        const closeLightbox = () => {
-            overlay.remove();
-            document.body.style.overflow = '';
-            document.removeEventListener('keydown', escapeListener);
+    if (lightboxDialog && !('closedBy' in HTMLDialogElement.prototype)) {
+        const isOutside = (e, dlg) => {
+            const r = dlg.getBoundingClientRect();
+            return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
         };
-
-        overlay.addEventListener('click', closeLightbox);
-        closeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            closeLightbox();
+        let pressedOutside = false;
+        lightboxDialog.addEventListener('pointerdown', (e) => {
+            pressedOutside = (e.target === lightboxDialog) && isOutside(e, lightboxDialog);
         });
-        
-        const escapeListener = (e) => {
-            if (e.key === 'Escape') {
-                closeLightbox();
+        lightboxDialog.addEventListener('pointerup', (e) => {
+            if (pressedOutside && (e.target === lightboxDialog) && isOutside(e, lightboxDialog)) {
+                lightboxDialog.close();
             }
-        };
-        document.addEventListener('keydown', escapeListener);
+        });
+    }
+
+    const openLightbox = (imageSrc, imageAlt, titleText) => {
+        if (!lightboxDialog || !lightboxImg) return;
+        lightboxImg.src = imageSrc;
+        lightboxImg.alt = imageAlt || titleText || 'Enlarged image';
+        if (lightboxTitle) {
+            lightboxTitle.textContent = titleText || imageAlt || 'Image Preview';
+        }
+        if (lightboxDownloadLink) {
+            lightboxDownloadLink.href = imageSrc;
+        }
+        lightboxDialog.showModal();
     };
 
     // Attach to property images
     document.querySelectorAll('.property-image img').forEach(img => {
-        img.addEventListener('click', () => openLightbox(img.src, img.alt));
+        img.addEventListener('click', () => openLightbox(img.src, img.alt, '4519 Baker St — Interior Preview'));
     });
 
-    // Attach to any popup triggers (like parking map link)
+    // Attach to any popup triggers (parking map link, laundromat guide link, etc.)
     document.querySelectorAll('[data-popup-img], .popup-trigger').forEach(trigger => {
         trigger.addEventListener('click', (e) => {
             e.preventDefault();
             const imgSrc = trigger.getAttribute('data-popup-img') || trigger.getAttribute('href');
-            const imgAlt = trigger.textContent.trim() || 'Parking Directions Map';
+            const titleText = trigger.getAttribute('data-popup-title') || trigger.textContent.trim() || 'Property Resource';
             if (imgSrc) {
-                openLightbox(imgSrc, imgAlt);
+                openLightbox(imgSrc, titleText, titleText);
             }
         });
     });

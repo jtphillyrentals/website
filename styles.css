@@ -939,6 +939,136 @@ body.scrolled .nav {
 }
 
 /* ===========================
+   LIGHTBOX DIALOG MODAL
+   =========================== */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background-color: rgba(11, 17, 32, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.lightbox-dialog {
+  margin: auto;
+  padding: 0;
+  border: 1px solid rgba(248, 250, 252, 0.12);
+  border-radius: var(--radius-lg);
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  max-width: min(92vw, 900px);
+  max-height: 92vh;
+  max-height: 92dvh;
+  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.85);
+  overflow: hidden;
+}
+
+.lightbox-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.lightbox-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 92vh;
+  max-height: 92dvh;
+  width: 100%;
+}
+
+.lightbox-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: rgba(15, 23, 42, 0.95);
+  border-bottom: var(--border-glass);
+  flex-shrink: 0;
+}
+
+.lightbox-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  min-width: 0;
+}
+
+.lightbox-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.lightbox-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent-primary);
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: var(--radius-pill);
+  transition: var(--transition-smooth);
+}
+
+.lightbox-action-btn:hover {
+  background: var(--accent-primary);
+  color: var(--text-inverse);
+}
+
+.lightbox-close-form {
+  margin: 0;
+}
+
+.lightbox-close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--accent-primary);
+  color: var(--text-inverse);
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.lightbox-close-btn:hover {
+  background-color: var(--accent-light);
+  transform: scale(1.06);
+}
+
+.lightbox-body {
+  overflow: auto;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: var(--bg-secondary);
+}
+
+.lightbox-body img {
+  max-width: 100%;
+  height: auto;
+  max-height: calc(92dvh - 5.5rem);
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+}
+
+/* ===========================
    ANIMATIONS
    =========================== */
 @keyframes fadeInUp {
@@ -1133,5 +1263,23 @@ body.scrolled .nav {
 
   .nav-logo span {
     font-size: 1rem;
+  }
+
+  .lightbox-header {
+    padding: 0.85rem 1rem;
+    gap: 0.65rem;
+  }
+
+  .lightbox-title {
+    font-size: 0.95rem;
+  }
+
+  .lightbox-actions {
+    gap: 0.5rem;
+  }
+
+  .lightbox-action-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.78rem;
   }
 }

@@ -257,9 +257,20 @@
                                 <strong>Parking Directions</strong>
                             </div>
                             <p>Free parking is available in the newly paved lot located just a couple doors away from the property.</p>
-                            <a href="images/parking.jpg" class="parking-link popup-trigger" data-popup-img="images/parking.jpg" id="parking-map-link">
+                            <a href="images/parking.jpg" class="parking-link popup-trigger" data-popup-img="images/parking.jpg" data-popup-title="Parking Map &amp; Directions" id="parking-map-link">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                View Parking Map & Directions
+                                View Parking Map &amp; Directions
+                            </a>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-item-header">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="2" width="18" height="20" rx="2"></rect><circle cx="12" cy="13" r="5"></circle><path d="M12 18a2.5 2.5 0 0 0 0-5 2.5 2.5 0 0 1 0-5"></path><line x1="7" y1="5.5" x2="7.01" y2="5.5"></line><line x1="10" y1="5.5" x2="10.01" y2="5.5"></line></svg>
+                                <strong>Nearby Laundromats</strong>
+                            </div>
+                            <p>Need larger machines or drop-off wash &amp; fold? View a comparison guide of nearby laundromats, hours, and services.</p>
+                            <a href="images/laundromat.jpeg" class="parking-link popup-trigger" data-popup-img="images/laundromat.jpeg" data-popup-title="Laundromats Near 4519 Baker St" id="laundromat-guide-link">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                View Nearby Laundromats Guide
                             </a>
                         </div>
                     </div>
@@ -342,6 +353,27 @@
             </div>
         </div>
     </footer>
+
+    <!-- ===== IMAGE LIGHTBOX MODAL ===== -->
+    <dialog id="image-lightbox-dialog" class="lightbox-dialog" closedby="any" aria-labelledby="lightbox-dialog-title">
+        <div class="lightbox-container">
+            <div class="lightbox-header">
+                <h3 id="lightbox-dialog-title" class="lightbox-title">Image Preview</h3>
+                <div class="lightbox-actions">
+                    <a id="lightbox-download-link" href="images/laundromat.jpeg" target="_blank" rel="noopener" class="lightbox-action-btn" title="Open or download full image">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        <span>Open Full Image</span>
+                    </a>
+                    <form method="dialog" class="lightbox-close-form">
+                        <button type="submit" class="lightbox-close-btn" aria-label="Close popup" autofocus>✕</button>
+                    </form>
+                </div>
+            </div>
+            <div class="lightbox-body">
+                <img id="lightbox-img" src="" alt="Enlarged preview">
+            </div>
+        </div>
+    </dialog>
 
     <script src="script.js"></script>
 </body>
